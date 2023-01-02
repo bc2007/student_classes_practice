@@ -1,13 +1,87 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Test {
     public static void main(String[] args) {
 
         //COMPLETE THIS CLASS AFTER ALL THE OTHER CLASSES
+
+        ArrayList<Student> list = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        int mStudents = 0;
+        int sStudents = 0;
+
+        while (list.size() < 3){
+            System.out.println();
+            System.out.println(UserQuestions.askToJoin);
+            String joinYN = scanner.nextLine();
+
+            if (joinYN.equalsIgnoreCase("y")) {
+                System.out.println(UserQuestions.askFirstName);
+                String firstName = scanner.nextLine();
+                System.out.println(UserQuestions.askLastName);
+                String lastName = scanner.nextLine();
+
+                System.out.println(UserQuestions.askAge);
+                int age = scanner.nextInt();
+                scanner.nextLine();
+                try {
+                    Permission.checkAge(age);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    continue;
+                }
+
+
+                System.out.println(UserQuestions.askGender);
+                String gender = scanner.nextLine().toUpperCase();
+
+                System.out.println(UserQuestions.askClassName);
+                String className = scanner.nextLine();
+                try {
+                    Permission.checkClassName(className);
+                } catch (RuntimeException e){
+                    e.printStackTrace();
+                    continue;
+                }
+
+
+                if (className.equalsIgnoreCase("math")) {
+                    MathStudent mStudent = new MathStudent(firstName, lastName, age, gender, className);
+                    System.out.println("Congratulations! You are registered for Math class.");
+                    list.add(mStudent);
+                    mStudents++;
+                } else {
+                    ScienceStudent sStudent = new ScienceStudent(firstName, lastName, age, gender, className);
+                    System.out.println("Congratulations! You are registered for Science class.");
+                    list.add(sStudent);
+                    sStudents++;
+                }
+            }
+
+
+        }
+
+        System.out.println();
+        for (Student student : list) {
+            System.out.println(student);
+        }
+
+        System.out.println("Math students = " + mStudents);
+        System.out.println("Science students = " + sStudents);
+
+
+
+
+
 
         /*
         Write a code that asks user to if they would like join your classes
         If the answer is "Yes" from user,then ask user information; firstName, lastName, age, gender, class to join
         ***If user is age is not more than 20, do not allow them to join
         ***If user wants to join any other class except Math and Science, do not allow them to join
+
+
 
         REMEMBER - checkAge and checkClassName methods may throw exceptions. You have to handle them
 
